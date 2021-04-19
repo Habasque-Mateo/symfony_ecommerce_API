@@ -24,7 +24,7 @@ class CatalogController
         $data = json_decode($request->getContent(), true);
         if(empty($data['name']) || empty($data['description']) || empty($data['photo']) || empty($data['price']))
         {
-            throw new NotFoundHttpException($data['name']. " - ". $data['description']. " - ". $data['photo']. " - ". $data['price']);
+            throw new NotFoundHttpException("error");
         }
 
         $catalog = $this->catalogRepository->saveCatalog($data['name'], $data['description'], $data['photo'], $data['price']);
