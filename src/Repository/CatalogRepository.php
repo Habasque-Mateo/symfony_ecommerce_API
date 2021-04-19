@@ -39,15 +39,15 @@ class CatalogRepository extends ServiceEntityRepository
     }
     public function findOneById($value): ?Catalog
     {
-        $qb = $this->createQueryBuilder('c')
+        return $this->createQueryBuilder('c')
             ->andWhere("c.id = 8")
             ->getQuery()
             ->getOneOrNullResult()
         ;
 
-        $query = $qb->getQuery();
+        /*$query = $qb->getQuery();
         var_dump($query-getDQL());die;
-        return $query->execute();
+        return $query->execute();*/
     }
 
     // /**
