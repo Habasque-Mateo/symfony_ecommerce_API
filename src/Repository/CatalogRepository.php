@@ -48,13 +48,7 @@ class CatalogRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findAll(): ?Catalog
-    {
-        return $this->createQueryBuilder('c')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
+
 
     // /**
     //  * @return Catalog[] Returns an array of Catalog objects
