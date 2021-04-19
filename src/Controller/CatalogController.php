@@ -59,11 +59,13 @@ class CatalogController
         return new JsonResponse($data, Response::HTTP_OK);
     }
 
+
     /**
      * @Route("/api/products", name="get_all_products", methods={"GET"})
      */
     public function getAll(): JsonResponse
     {
+        //Find all existe nativement avec doctrine, pas besoin de l'implémenter dans le repo
         $catalog = $this->catalogRepository->findAll();
         $data = [];
 
@@ -78,6 +80,36 @@ class CatalogController
             ];
         }
         return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/api/product/{productId}", name="update_product", methods={"PUT"})
+     */
+    public function update($productId, Request $request)
+    {
+        $catalog = $this->catalogRepository->findOneById($productId);
+        $data = json_decode($request->getContent(), true);
+
+        empty($data['name']) ? true : $catalog->setName($data['name']);
+        empty($data['description']) ? true : $catalog->setDescription($data['description']);
+        empty($data['photo']) ? true : $catalog->setPhoto($data['photo']);
+        empty($data['price']) ? true : $catalog->setPrice($data['price']);
+
+        $updatedCatalog = $this->catalogRepository->updateCatalog($catalog);
+
+        return new JsonResponse($updatedCatalog->toArray(), Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/api/product/{productId}", name="delete_product", methods={"DELETE"})
+     */
+    public function delete($productId): JsonResponse
+    {
+        $catalog = $this->catalogRepository->findOneById($productId);
+
+        $this->catalogRepository->removeCatalog($catalog);
+        
+        return new JsonResponse(["status" => "Product deleted"], Response::HTTP_NO_CONTENT);
     }
 
 }

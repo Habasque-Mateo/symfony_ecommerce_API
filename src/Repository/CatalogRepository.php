@@ -48,7 +48,18 @@ class CatalogRepository extends ServiceEntityRepository
         ;
     }
 
+    public function updateCatalog(Catalog $product): ?Catalog
+    {
+        $this->manager->persist($product);
+        $this->manager->flush();
+        return $product;
+    }
 
+    public function removeCatalog(Catalog $product): ?Catalog
+    {
+        $this->manager->remove($product);
+        $this->manager->flush();
+    }
 
     // /**
     //  * @return Catalog[] Returns an array of Catalog objects
