@@ -30,6 +30,7 @@ class CatalogController
         $catalog = $this->catalogRepository->saveCatalog($data['name'], $data['description'], $data['photo'], $data['price']);
         return new JsonResponse(
         [
+            'id' => $catalog->getId(),
             'name' => $catalog->getName(),
             'description' => $catalog->getDescription(),
             'photo' => $catalog->getPhoto(),
