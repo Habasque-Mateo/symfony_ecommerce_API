@@ -47,6 +47,7 @@ class CatalogRepository extends ServiceEntityRepository
         ;
 
         $query = $qb->getQuery();
+        var_dump($query-getDQL());die;
         return $query->execute();
     }
 
