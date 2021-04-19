@@ -41,7 +41,6 @@ class CatalogRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.id = 7')
-            ->setParameter('id', (int)$value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
