@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Catalog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\EntityManagerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Catalog|null find($id, $lockMode = null, $lockVersion = null)
