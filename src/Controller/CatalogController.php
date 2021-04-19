@@ -45,7 +45,7 @@ class CatalogController
      */
     public function get($productId): JsonResponse
     {
-        $catalog = $this->CatalogRepository->findOneById(['id' => $productId]);
+        $catalog = $this->catalogRepository->findOneById(['id' => $productId]);
 
         $data = [
             'id' => $catalog->getId(),
