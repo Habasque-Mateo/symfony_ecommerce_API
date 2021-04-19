@@ -58,6 +58,28 @@ class CatalogController
 
         return new JsonResponse($data, Response::HTTP_OK);
     }
+
+    /**
+     * @Route("/api/products", name="get_all_products", methods={"GET"})
+     */
+    public function getAll(): JsonResponse
+    {
+        $catalog = $this->catalogRepository->findAll();
+        $data = [];
+
+        foreach($catalog as $product)
+        {
+            $data[] = [
+                'id' => $product->getId(),
+                'name' => $product->getName(),
+                'description' => $product->getDescription(),
+                'photo' => $product->getPhoto(),
+                'price' => $product->getPrice(),
+            ];
+        }
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
 }
 
 ?>

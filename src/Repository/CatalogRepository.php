@@ -37,6 +37,7 @@ class CatalogRepository extends ServiceEntityRepository
 
         return $newCatalog;
     }
+
     public function findOneById($productId): ?Catalog
     {
         return $this->createQueryBuilder('c')
@@ -44,6 +45,14 @@ class CatalogRepository extends ServiceEntityRepository
             ->setParameter('id', $productId)
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+
+    public function findAll(): ?Catalog
+    {
+        return $this->createQueryBuilder('c')
+            ->getQuery()
+            ->getResult()
         ;
     }
 
