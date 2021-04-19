@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Catalog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\EntityManagerInterface;
 
 /**
  * @method Catalog|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CatalogRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $manager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Catalog::class);
+        $this->manager = $manager;
+    }
+
+    public function saveCatalog($name, $description, $photo, $price)
+    {
+        $newCatalog = new Catalog();
+        $newCatalog
+            ->setName($name)
+            ->setDescription($description)
+            ->setPhoto($photo)
+            ->setPrice($price);
+        
+        $this->manager->persist($newCatalog);
+        $this->manager->flush();
+
     }
 
     // /**
