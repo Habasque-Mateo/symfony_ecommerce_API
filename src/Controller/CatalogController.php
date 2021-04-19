@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Repository\CatalogRepository;
+use JsonException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +25,7 @@ class CatalogController
         $data = json_decode($request->getContent(), true);
         if(empty($data['name']) || empty($data['description']) || empty($data['photo']) || empty($data['price']))
         {
-            throw new NotFoundHttpException("error");
+            return new JsonResponse(["error" => "Missing required parameter."], 400);
         }
 
         $catalog = $this->catalogRepository->saveCatalog($data['name'], $data['description'], $data['photo'], $data['price']);
