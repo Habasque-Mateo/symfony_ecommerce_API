@@ -41,7 +41,7 @@ class CatalogController
     }
 
     /**
-     * @Route("/api/product/{productId}}", name="get_one_product", methods={"GET"})
+     * @Route("/api/product/{productId}", name="get_one_product", methods={"GET"})
      */
     public function get($productId): JsonResponse
     {
