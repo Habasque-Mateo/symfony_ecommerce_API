@@ -35,6 +35,7 @@ class CatalogRepository extends ServiceEntityRepository
         $this->manager->persist($newCatalog);
         $this->manager->flush();
 
+        return $newCatalog;
     }
 
     // /**
