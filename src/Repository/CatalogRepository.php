@@ -59,7 +59,6 @@ class CatalogRepository extends ServiceEntityRepository
     {
         $this->manager->remove($product);
         $this->manager->flush();
-        return null;
     }
 
     // /**
