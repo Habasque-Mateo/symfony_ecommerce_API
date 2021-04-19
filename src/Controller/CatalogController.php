@@ -22,12 +22,18 @@ class CatalogController
     public function add(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        if(empty($data['name']) || empty($data['description']) || empty($data['photo']) || empty($data['price']))
+        
+        $name = $data['name'];
+        $description = $data['description'];
+        $photo = $data['photo'];
+        $price = $data['price'];
+
+        if(empty($name) || empty($description) || empty($photo) || empty($price))
         {
-            throw new NotFoundHttpException($data['name']. " - ". $data['description']. " - ". $data['photo']. " - ". $data['price']);
+            throw new NotFoundHttpException('Expecting mandatory parameters.');
         }
 
-        $catalog = $this->catalogRepository->saveCatalog($data['name'], $data['description'], $data['photo'], $data['price']);
+        $this->catalogRepository->saveCatalog($name, $description, $photo, $price);
         return new JsonResponse(
         [
             'name' => $catalog->getName(),
