@@ -37,6 +37,15 @@ class CatalogRepository extends ServiceEntityRepository
 
         return $newCatalog;
     }
+    public function findOneById($value): ?Catalog
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 
     // /**
     //  * @return Catalog[] Returns an array of Catalog objects
@@ -55,15 +64,5 @@ class CatalogRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Catalog
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+    
 }
