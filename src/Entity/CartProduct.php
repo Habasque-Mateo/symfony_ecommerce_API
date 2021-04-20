@@ -13,14 +13,14 @@ class CartProduct
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity=Cart::class, inversedBy="cartProducts")
-     * @ORM\JoinColumn(name="cartId", referencedColmunName="id", nullable=false)
+     * @ORM\JoinColumn(name="cartId", referencedColumnName="id", nullable=false)
      */
     private $cartId;
 
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity=Catalog::class, inversedBy="cartProducts")
-     * @ORM\JoinColumn(name="productId", referencedColmunName="id", nullable=false)
+     * @ORM\JoinColumn(name="productId", referencedColumnName="id", nullable=false)
      */
     private $productId;
 
