@@ -50,10 +50,11 @@ class CartProductController
 
         $cartProduct = $this->cartProductRepository->saveCartProduct($product, $cart);
 
+
         return new JsonResponse(
         [
-            'productId' => $cartProduct->getProductId(),
-            'cartId' => $cartProduct->getCartId()
+            'productId' => $cartProduct->getProductId()->getId(),
+            'cartId' => $cartProduct->getCartId()->getId()
         ], 
         Response::HTTP_CREATED);
     }
