@@ -39,7 +39,7 @@ class CartProductController
 
         if(empty($user))
         {
-            return new JsonResponse(["error" => "user not found."], 400);
+            return new JsonResponse(["error" => $productId], 400);
         }
 
         $cartId = $user->getCarts()[0]->getId();
