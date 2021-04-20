@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CatalogRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class Catalog
      * @ORM\Column(type="float")
      */
     private $price;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CartProduct::class, mappedBy="productId", orphanRemoval=true)
+     */
+    private $cartProducts;
+
+    public function __construct()
+    {
+        $this->cartProducts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -99,4 +111,34 @@ class Catalog
            'price' => $this->getPrice()
        ];
      }
+
+    /**
+     * @return Collection|CartProduct[]
+     */
+    public function getCartProducts(): Collection
+    {
+        return $this->cartProducts;
+    }
+
+    public function addCartProduct(CartProduct $cartProduct): self
+    {
+        if (!$this->cartProducts->contains($cartProduct)) {
+            $this->cartProducts[] = $cartProduct;
+            $cartProduct->setProductId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCartProduct(CartProduct $cartProduct): self
+    {
+        if ($this->cartProducts->removeElement($cartProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($cartProduct->getProductId() === $this) {
+                $cartProduct->setProductId(null);
+            }
+        }
+
+        return $this;
+    }
 }
