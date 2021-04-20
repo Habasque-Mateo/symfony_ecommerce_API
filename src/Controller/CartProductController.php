@@ -43,7 +43,7 @@ class CartProductController
 
         $cartId = $user->getCarts();
 
-        return new JsonResponse(['cart' => $cartId[0]]);
+        return new JsonResponse(['cart' => $cartId]);
 
         $cartProduct = $this->cartProductRepository->saveCartProduct($productId, $cartId);
 
