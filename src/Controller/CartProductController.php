@@ -30,7 +30,7 @@ class CartProductController
     {
         $productId = $request->query->get('productId');
         $data = json_decode($request->getContent(), true);
-        if(empty($productId) || empty($data['userLogin']))
+        if(empty($data['productId']) || empty($data['userLogin']))
         {
             return new JsonResponse(["error" => "Missing required parameter."], 400);
         }
