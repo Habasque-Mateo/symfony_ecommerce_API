@@ -21,6 +21,16 @@ class CartRepository extends ServiceEntityRepository
         $this->manager = $manager;
     }
 
+    public function findOneByUserLogin($value): ?Cart
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.userLogin = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     // /**
     //  * @return Cart[] Returns an array of Cart objects
     //  */
@@ -34,18 +44,6 @@ class CartRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Cart
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
         ;
     }
     */
