@@ -11,12 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
 class CartProduct
 {
     /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity=Cart::class, inversedBy="cartProducts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $cartId;
 
     /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity=Catalog::class, inversedBy="cartProducts")
      * @ORM\JoinColumn(nullable=false)
      */

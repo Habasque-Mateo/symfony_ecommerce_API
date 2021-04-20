@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     /**
+     * @ORM\Id
      * @ORM\Column(type="string", length=255)
      */
     private $login;
