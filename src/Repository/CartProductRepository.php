@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\CartProduct;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method CartProduct|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CartProductRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, CartProduct::class);
+        $this->manager = $manager;
+    }
+
+    public function saveCartProduct($productId, $cartId)
+    {
+        $newCartProduct = new CartProduct();
+        $newCartProduct
+            ->setProductId($productId)
+            ->setCartId($cartId)
+        
+        $this->manager->persist($newCartProduct);
+        $this->manager->flush();
+
+        return $newCartProduct;
     }
 
     // /**

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Cart;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Cart|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CartRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Cart::class);
+        $this->manager = $manager;
     }
 
     // /**

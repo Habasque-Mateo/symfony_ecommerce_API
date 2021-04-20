@@ -13,13 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $login;
@@ -52,11 +45,6 @@ class User
     public function __construct()
     {
         $this->carts = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getLogin(): ?string

@@ -11,13 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 class CartProduct
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Cart::class, inversedBy="cartProducts")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -28,11 +21,6 @@ class CartProduct
      * @ORM\JoinColumn(nullable=false)
      */
     private $productId;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getCartId(): ?Cart
     {
