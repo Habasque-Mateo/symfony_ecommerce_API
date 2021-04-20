@@ -30,9 +30,9 @@ class CartProductController
     {
         $productId = $request->query->get('productId');
         $data = json_decode($request->getContent(), true);
-        if(empty($data['productId']) || empty($data['userLogin']))
+        if(empty($productId) || empty($data['userLogin']))
         {
-            return new JsonResponse(["error" => "Missing required parameter."], 400);
+            return new JsonResponse(["error" => $data["userLogin"]], 400);
         }
 
         $user = $this->userRepository->findOneByLogin($data['userLogin']);
