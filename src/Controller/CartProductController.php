@@ -26,9 +26,9 @@ class CartProductController
     /**
     * @Route("/api/cart/{productId}", name="add_product_to_cart", methods={"POST"})
     */
-    public function add(Request $request): JsonResponse
+    public function add(Request $request, $productId): JsonResponse
     {
-        $productId = $request->query->get('productId');
+        //$productId = $request->query->get('productId');
         $data = json_decode($request->getContent(), true);
         if(empty($productId) || empty($data['userLogin']))
         {
