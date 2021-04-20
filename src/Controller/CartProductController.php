@@ -28,21 +28,22 @@ class CartProductController
     */
     public function add(Request $request, $productId): JsonResponse
     {
-        //$productId = $request->query->get('productId');
         $data = json_decode($request->getContent(), true);
         if(empty($productId) || empty($data['userLogin']))
         {
-            return new JsonResponse(["error" => $productId], 400);
+            return new JsonResponse(["error" => "Missing required parameter."], 400);
         }
 
         $user = $this->userRepository->findOneByLogin($data['userLogin']);
 
         if(empty($user))
         {
-            return new JsonResponse(["error" => $productId], 400);
+            return new JsonResponse(["error" => "user not found."], 400);
         }
 
-        $cartId = $user->getCarts()[0]->getId();
+        $cartId = $user->getCarts();
+
+        return new JsonResponse(['cart' => $cartId[0]]);
 
         $cartProduct = $this->cartProductRepository->saveCartProduct($productId, $cartId);
 
