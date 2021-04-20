@@ -13,35 +13,35 @@ class CartProduct
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity=Cart::class, inversedBy="cartProducts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="cartId", referencedColmunName="id", nullable=false)
      */
     private $cartId;
 
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity=Catalog::class, inversedBy="cartProducts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="productId", referencedColmunName="id", nullable=false)
      */
     private $productId;
 
-    public function getCartId(): ?Cart
+    public function getCartId(): ?int
     {
         return $this->cartId;
     }
 
-    public function setCartId(?Cart $cartId): self
+    public function setCartId(?int $cartId): self
     {
         $this->cartId = $cartId;
 
         return $this;
     }
 
-    public function getProductId(): ?Catalog
+    public function getProductId(): ?int
     {
         return $this->productId;
     }
 
-    public function setProductId(?Catalog $productId): self
+    public function setProductId(?int $productId): self
     {
         $this->productId = $productId;
 
