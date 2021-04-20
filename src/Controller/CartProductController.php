@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use App\Repository\CartProductRepository;
 use App\Repository\CartRepository;
-use App\Repository\UserRepository;
+use App\Repository\CatalogRepository;
 use JsonException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,12 +15,12 @@ class CartProductController
 {
     private $cartProductRepository;
     private $cartRepository;
-    private $userRepository;
-    public function __construct(CartProductRepository $cartProductRepository, CartRepository $cartRepository, UserRepository $userRepository)
+    private $catalogRepository;
+    public function __construct(CartProductRepository $cartProductRepository, CartRepository $cartRepository, CatalogRepository $catalogRepository)
     {
         $this->cartProductRepository = $cartProductRepository;
         $this->cartRepository = $cartRepository;
-        $this->userRepository = $userRepository;
+        $this->catalogRepository = $catalogRepository;
     }
 
     /**
@@ -34,6 +34,13 @@ class CartProductController
             return new JsonResponse(["error" => "Missing required parameter."], 400);
         }
 
+        $product = $this->catalogRepository->findOneById($productId);
+
+        if(empty($product))
+        {
+            return new JsonResponse(["error" => "Product not found."], 400);
+        }
+
         $cart = $this->cartRepository->findOneByUserLogin($data['userLogin']);
 
         if(empty($cart))
@@ -41,7 +48,7 @@ class CartProductController
             return new JsonResponse(["error" => "Cart not found."], 400);
         }
 
-        $cartProduct = $this->cartProductRepository->saveCartProduct($productId, $cart->getId());
+        $cartProduct = $this->cartProductRepository->saveCartProduct($product, $cart);
 
         return new JsonResponse(
         [
