@@ -27,7 +27,7 @@ class CartRepository extends ServiceEntityRepository
             ->andWhere('c.userLogin = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
         ;
     }
 
