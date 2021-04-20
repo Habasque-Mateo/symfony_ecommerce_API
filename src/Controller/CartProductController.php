@@ -32,7 +32,7 @@ class CartProductController
         $data = json_decode($request->getContent(), true);
         if(empty($productId) || empty($data['userLogin']))
         {
-            return new JsonResponse(["error" => $data["userLogin"]], 400);
+            return new JsonResponse(["error" => $productId], 400);
         }
 
         $user = $this->userRepository->findOneByLogin($data['userLogin']);
