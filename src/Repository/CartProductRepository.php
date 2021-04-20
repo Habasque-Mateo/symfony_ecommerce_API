@@ -27,7 +27,7 @@ class CartProductRepository extends ServiceEntityRepository
         $newCartProduct
             ->setProductId($productId)
             ->setCartId($cartId)
-        
+        ;
         $this->manager->persist($newCartProduct);
         $this->manager->flush();
 
