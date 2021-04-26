@@ -142,7 +142,7 @@ class CartProductController
     public function createOrder(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        if(empty($productId) || empty($data['userLogin']))
+        if(empty($data['userLogin']))
         {
             return new JsonResponse(["error" => "Missing required parameter."], 400);
         }
