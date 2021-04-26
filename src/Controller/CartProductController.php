@@ -171,7 +171,7 @@ class CartProductController
             $product = $childProduct->getProductId();
             $orderProduct = $this->orderProductRepository->saveOrderProduct($product, $order);
             
-            $products = [
+            $products[] = [
                 "id" => $product->getId(),
                 "name" => $product->getName(),
                 "description" => $product->getDescription(),
@@ -194,7 +194,7 @@ class CartProductController
             $this->cartProductRepository->removeCartProduct($childProduct);
         }
 
-        return new JsonResponse($products, Response::HTTP_CREATED);
+        return new JsonResponse($retData, Response::HTTP_CREATED);
     }
 }
 
