@@ -112,12 +112,12 @@ class CartProductController
 
         $cartProducts = $this->cartProductRepository->findBy(['cartId' => $cart->getId()]);
 
-        $data = [];
+        $retData = [];
 
         foreach($cartProducts as $childProduct)
         {
             $product = $childProduct->getProductId();
-            $data[] = [
+            $retData[] = [
                 'id' => $product->getId(),
                 'name' => $product->getName(),
                 'description' => $product->getDescription(),
@@ -126,7 +126,36 @@ class CartProductController
             ];
         }
 
-        return new JsonResponse($data, Response::HTTP_OK);
+        return new JsonResponse($retData, Response::HTTP_OK);
+    }
+
+    /**
+    * @Route("/api/cart/validate", name="create_order", methods={"POST"})
+    */
+    public function createOrder(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        if(empty($productId) || empty($data['userLogin']))
+        {
+            return new JsonResponse(["error" => "Missing required parameter."], 400);
+        }
+
+        $cart = $this->cartRepository->findOneByUserLogin($data['userLogin']);
+
+        if(empty($cart))
+        {
+            return new JsonResponse(["error" => "Cart not found."], 400);
+        }
+
+        $cartProducts = $this->cartProductRepository->findBy(['cartId' => $cart->getId()]);
+
+
+        return new JsonResponse(
+        [
+            'productId' => $cartProduct->getProductId()->getId(),
+            'cartId' => $cartProduct->getCartId()->getId()
+        ], 
+        Response::HTTP_CREATED);
     }
 }
 
