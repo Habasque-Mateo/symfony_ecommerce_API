@@ -58,6 +58,39 @@ class CartProductController
         ], 
         Response::HTTP_CREATED);
     }
+
+    /**
+    * @Route("/api/cart/{productId}", name="remove_product_to_cart", methods={"DELETE"})
+    */
+    public function remove(Request $request, $productId): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        if(empty($productId) || empty($data['userLogin']))
+        {
+            return new JsonResponse(["error" => "Missing required parameter."], 400);
+        }
+
+        $product = $this->catalogRepository->findOneById($productId);
+
+        if(empty($product))
+        {
+            return new JsonResponse(["error" => "Product not found."], 400);
+        }
+
+        $cart = $this->cartRepository->findOneByUserLogin($data['userLogin']);
+
+        if(empty($cart))
+        {
+            return new JsonResponse(["error" => "Cart not found."], 400);
+        }
+
+        $cartProduct = $this->cartProductRepository->findOneByPK($cart->getId(), $product->getId());
+
+        $this->cartProductRepository->removeCartProduct($cartProduct);
+
+
+        return new JsonResponse(["status" => "Product deleted"], Response::HTTP_NO_CONTENT);
+    }
 }
 
 ?>
