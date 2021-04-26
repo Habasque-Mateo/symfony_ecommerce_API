@@ -180,7 +180,7 @@ class CartProductController
         $retData = [
             "id" => $order->getId(),
             "totalPrice" => $totalPrice,
-            "creationDate" => $order->getCreationDate(),
+            "creationDate" => $order->getCreationDate()->date,
             "products" => $products
         ];
 
