@@ -156,6 +156,11 @@ class CartProductController
 
         $cartProducts = $this->cartProductRepository->findBy(['cartId' => $cart->getId()]);
 
+        if(count($cartProducts) < 1)
+        {
+            return new JsonResponse(["error" => "Cart empty."], 400);
+        }
+
         $order = $this->orderRepository->saveOrder(date("Y-m-d H:i:s"), $cart);
 
         //fill order
@@ -180,7 +185,7 @@ class CartProductController
         $retData = [
             "id" => $order->getId(),
             "totalPrice" => $totalPrice,
-            "creationDate" => $order->getCreationDate()->date,
+            "creationDate" => $order->getCreationDate()->format('Y-m-d H:i:s'),
             "products" => $products
         ];
 
