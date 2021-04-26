@@ -45,7 +45,7 @@ class CartProductRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.cartId = :cartId')
-            ->andWhere('c.produtId = :productId')
+            ->andWhere('c.productId = :productId')
             ->setParameter('cartId', $cartId)
             ->setParameter('productId', $productId)
             ->getQuery()
