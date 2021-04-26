@@ -137,7 +137,7 @@ class CartProductController
     }
 
     /**
-    * @Route("/api/cart/validate", name="create_order", methods={"POST"})
+    * @Route("/api/cart/validate", name="convert_cart_into_order", methods={"PATCH"})
     */
     public function createOrder(Request $request): JsonResponse
     {
