@@ -158,7 +158,7 @@ class CartProductController
 
         if(count($cartProducts) < 1)
         {
-            return new JsonResponse(["error" => "Cart empty."], 400);
+            return new JsonResponse(["error" => "Cart is empty."], 400);
         }
 
         $order = $this->orderRepository->saveOrder(date("Y-m-d H:i:s"), $cart);
