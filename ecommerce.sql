@@ -35,6 +35,7 @@ CREATE TABLE `cart` (
 -- Dumping data for table `cart`
 --
 
+
 LOCK TABLES `cart` WRITE;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
@@ -48,10 +49,10 @@ DROP TABLE IF EXISTS `cart_product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cart_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cartId` int(11) NOT NULL,
   `productId` int(11) NOT NULL,
-  PRIMARY KEY (`cartId`,`productId`),
-  KEY `productId` (`productId`),
+  PRIMARY KEY (`id`),
   CONSTRAINT `cart_product_ibfk_1` FOREIGN KEY (`cartId`) REFERENCES `cart` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `cart_product_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `catalog` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -126,10 +127,10 @@ DROP TABLE IF EXISTS `order_product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `order_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `productId` int(11) NOT NULL,
   `orderId` int(11) NOT NULL,
-  PRIMARY KEY (`productId`,`orderId`),
-  KEY `orderId` (`orderId`),
+  PRIMARY KEY (`id`),
   CONSTRAINT `order_product_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `catalog` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_product_ibfk_2` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
