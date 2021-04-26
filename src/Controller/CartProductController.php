@@ -156,7 +156,7 @@ class CartProductController
 
         $cartProducts = $this->cartProductRepository->findBy(['cartId' => $cart->getId()]);
 
-        $order = $this->orderRepository->saveOrder(date("Y-m-d H:i:s"), $cart->getId());
+        $order = $this->orderRepository->saveOrder(date("Y-m-d H:i:s"), $cart);
 
         //fill order
         $products = [];
@@ -164,7 +164,7 @@ class CartProductController
         foreach($cartProducts as $childProduct)
         {
             $product = $childProduct->getProductId();
-            $orderProduct = $this->orderProductRepository->saveOrderProduct($product->getId(), $order->getId());
+            $orderProduct = $this->orderProductRepository->saveOrderProduct($product, $order);
             
             $products = [
                 "id" => $product->getId(),
