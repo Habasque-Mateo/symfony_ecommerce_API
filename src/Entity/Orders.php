@@ -20,7 +20,7 @@ class Orders
     private $id;
 
     /**
-     * @ORM\Column(type="datetime", name="creationDate)
+     * @ORM\Column(type="datetime", name="creationDate")
      */
     private $creationDate;
 
