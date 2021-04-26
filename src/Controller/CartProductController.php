@@ -91,6 +91,43 @@ class CartProductController
 
         return new JsonResponse(["status" => "Product deleted"], Response::HTTP_NO_CONTENT);
     }
+
+    /**
+    * @Route("/api/cart", name="get_all_product_to_cart", methods={"GET"})
+    */
+    public function getAll(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        if(empty($data['userLogin']))
+        {
+            return new JsonResponse(["error" => "Missing required parameter."], 400);
+        }
+
+        $cart = $this->cartRepository->findOneByUserLogin($data['userLogin']);
+
+        if(empty($cart))
+        {
+            return new JsonResponse(["error" => "Cart not found."], 400);
+        }
+
+        $cartProducts = $this->cartProductRepository->findBy(['cartId' => $cart->getId()]);
+
+        $data = [];
+
+        foreach($cartProducts as $childProduct)
+        {
+            $product = $childProduct->getProductId();
+            $data[] = [
+                'id' => $product->getId(),
+                'name' => $product->getName(),
+                'description' => $product->getDescription(),
+                'photo' => $product->getPhoto(),
+                'price' => $product->getPrice(),
+            ];
+        }
+
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
 }
 
 ?>
