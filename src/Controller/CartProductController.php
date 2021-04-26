@@ -184,6 +184,11 @@ class CartProductController
             "products" => $products
         ];
 
+        foreach($cartProducts as $childProduct)
+        {
+            $this->cartProductRepository->removeCartProduct($childProduct);
+        }
+
         return new JsonResponse(
         $retData, Response::HTTP_CREATED);
     }
