@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Orders;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Orders|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class OrdersRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Orders::class);
+        $this->manager = $manager;
+    }
+
+    public function saveOrder($dateCreation, $cartId)
+    {
+        $newOrder = new Orders();
+        $newOrder
+            ->setCreationDate($dateCreation)
+            ->setCartId($cartId);
+        
+        $this->manager->persist($newOrder);
+        $this->manager->flush();
+
+        return $newOrder;
     }
 
     // /**

@@ -4,6 +4,8 @@ namespace App\Controller;
 use App\Repository\CartProductRepository;
 use App\Repository\CartRepository;
 use App\Repository\CatalogRepository;
+use App\Repository\OrdersRepository;
+use App\Repository\OrderProductRepository;
 use JsonException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,11 +18,16 @@ class CartProductController
     private $cartProductRepository;
     private $cartRepository;
     private $catalogRepository;
-    public function __construct(CartProductRepository $cartProductRepository, CartRepository $cartRepository, CatalogRepository $catalogRepository)
+    private $orderRepository;
+    private $orderProductRepository;
+
+    public function __construct(CartProductRepository $cartProductRepository, CartRepository $cartRepository, CatalogRepository $catalogRepository, OrdersRepository $orderRepository, OrderProductRepository $orderProductRepository)
     {
         $this->cartProductRepository = $cartProductRepository;
         $this->cartRepository = $cartRepository;
         $this->catalogRepository = $catalogRepository;
+        $this->orderRepository = $orderRepository;
+        $this->orderProductRepository = $orderProductRepository;
     }
 
     /**
@@ -149,13 +156,36 @@ class CartProductController
 
         $cartProducts = $this->cartProductRepository->findBy(['cartId' => $cart->getId()]);
 
+        $order = $this->orderRepository->saveOrder(date("Y-m-d H:i:s"), $cart->getId());
+
+        //fill order
+        $products = [];
+        $totalPrice = 0;
+        foreach($cartProducts as $childProduct)
+        {
+            $product = $childProduct->getProductId();
+            $orderProduct = $this->orderProductRepository->saveOrderProduct($product->getId(), $order->getId());
+            
+            $products = [
+                "id" => $product->getId(),
+                "name" => $product->getName(),
+                "description" => $product->getDescription(),
+                "photo" => $product->getPhoto(),
+                "price" => $product->getPrice()
+            ];
+
+            $totalPrice += $product->getPrice();
+        }
+
+        $retData = [
+            "id" => $order->getId(),
+            "totalPrice" => $totalPrice,
+            "creationDate" => $order->getCreationDate(),
+            "products" => $products
+        ];
 
         return new JsonResponse(
-        [
-            'productId' => $cartProduct->getProductId()->getId(),
-            'cartId' => $cartProduct->getCartId()->getId()
-        ], 
-        Response::HTTP_CREATED);
+        $retData, Response::HTTP_CREATED);
     }
 }
 

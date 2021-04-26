@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\OrderProduct;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method OrderProduct|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class OrderProductRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, OrderProduct::class);
+        $this->manager = $manager;
+    }
+
+    public function saveOrderProduct($productId, $orderId)
+    {
+        $newOrderProduct = new OrderProduct();
+        $newOrderProduct
+            ->setProductId($productId)
+            ->setOrderId($orderId);
+        
+        $this->manager->persist($newOrderProduct);
+        $this->manager->flush();
+
+        return $newOrderProduct;
     }
 
     // /**
