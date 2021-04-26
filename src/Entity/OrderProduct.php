@@ -10,19 +10,30 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class OrderProduct
 {
+    
     /**
      * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Catalog::class, inversedBy="orderProducts")
      * @ORM\JoinColumn(name="productId", referencedColumnName="id", nullable=false)
      */
     private $productId;
 
     /**
-     * @ORM\Id
      * @ORM\ManyToOne(targetEntity=Orders::class, inversedBy="orderProducts")
      * @ORM\JoinColumn(name="orderId", referencedColumnName="id", nullable=false)
      */
     private $orderId;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getProductId(): ?Catalog
     {
