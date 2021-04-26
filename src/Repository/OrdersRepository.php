@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Orders;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +26,7 @@ class OrdersRepository extends ServiceEntityRepository
     {
         $newOrder = new Orders();
         $newOrder
-            ->setCreationDate($dateCreation)
+            ->setCreationDate(new \DateTime($dateCreation))
             ->setCartId($cartId);
         
         $this->manager->persist($newOrder);
