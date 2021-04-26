@@ -26,7 +26,7 @@ class Orders
 
     /**
      * @ORM\ManyToOne(targetEntity=Cart::class, inversedBy="orders")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, name="cartId")
      */
     private $cartId;
 
