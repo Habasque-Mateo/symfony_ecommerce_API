@@ -194,8 +194,7 @@ class CartProductController
             $this->cartProductRepository->removeCartProduct($childProduct);
         }
 
-        return new JsonResponse(
-        $retData, Response::HTTP_CREATED);
+        return new JsonResponse($products, Response::HTTP_CREATED);
     }
 }
 
