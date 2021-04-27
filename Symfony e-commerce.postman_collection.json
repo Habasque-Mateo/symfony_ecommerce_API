@@ -1,0 +1,297 @@
+{
+	"info": {
+		"_postman_id": "374f42b7-3b5e-48bd-ad07-f91c87bba40f",
+		"name": "Symfony e-commerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add product to cart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userLogin\": \"user1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "10.0.2.15/api/cart/4",
+					"host": [
+						"10",
+						"0",
+						"2",
+						"15"
+					],
+					"path": [
+						"api",
+						"cart",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all products into cart",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userLogin\": \"user1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "10.0.2.15/api/cart",
+					"host": [
+						"10",
+						"0",
+						"2",
+						"15"
+					],
+					"path": [
+						"api",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create order",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userLogin\": \"user1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "10.0.2.15/api/cart/validate",
+					"host": [
+						"10",
+						"0",
+						"2",
+						"15"
+					],
+					"path": [
+						"api",
+						"cart",
+						"validate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete product from cart",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userLogin\": \"user1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "10.0.2.15/api/cart/4",
+					"host": [
+						"10",
+						"0",
+						"2",
+						"15"
+					],
+					"path": [
+						"api",
+						"cart",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Gets all products",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userLogin\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "10.0.2.15/api/products",
+					"host": [
+						"10",
+						"0",
+						"2",
+						"15"
+					],
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userLogin\": \"user1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "10.0.2.15/api/user",
+					"host": [
+						"10",
+						"0",
+						"2",
+						"15"
+					],
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get orders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userLogin\": \"user1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "10.0.2.15/api/orders",
+					"host": [
+						"10",
+						"0",
+						"2",
+						"15"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get order by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userLogin\": \"user1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "10.0.2.15/api/orders",
+					"host": [
+						"10",
+						"0",
+						"2",
+						"15"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userLogin\": \"my_Userrrr\",\n    \"login\": \"user1\",\n    \"lastname\": \"zob\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "10.0.2.15/api/user",
+					"host": [
+						"10",
+						"0",
+						"2",
+						"15"
+					],
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
