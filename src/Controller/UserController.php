@@ -48,6 +48,7 @@ class UserController
      */
     public function update(Request $request): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
         if(empty($data['userLogin']))
         {
             return new JsonResponse(["error" => "Missing required parameter."], 400);
