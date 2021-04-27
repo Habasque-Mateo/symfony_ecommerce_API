@@ -60,7 +60,7 @@ class UserController
             return new JsonResponse(["error" => "User not found."], 400);
         }
 
-        empty($data['userLogin']) ? true : $user->setLogin($data['userLogin']);
+        empty($data['login']) ? true : $user->setLogin($data['login']);
         empty($data['password']) ? true : $user->setPassword($data['password']);
         empty($data['email']) ? true : $user->setEmail($data['email']);
         empty($data['firstname']) ? true : $user->setFirstname($data['firstname']);
