@@ -69,7 +69,14 @@ class UserController
 
         $updatedUser = $this->userRepository->updateUser($user);
 
-        return new JsonResponse($updatedUser->toArray(), Response::HTTP_OK);
+        $retUser = [
+            "login"=> $updatedUser->getLogin(),
+            "email"=> $updatedUser->getEmail(),
+            "firstname"=> $updatedUser->getFirstname(),
+            "lastname"=> $updatedUser->getLastname()
+        ];
+
+        return new JsonResponse($retUser, Response::HTTP_OK);
     }
 }
 
