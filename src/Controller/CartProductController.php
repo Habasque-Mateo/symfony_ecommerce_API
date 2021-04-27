@@ -48,36 +48,43 @@ class CartProductController
             return new JsonResponse(["error" => "Cart not found."], 400);
         }
 
-        $order = $this->orderRepository->findBy(["cartId"=> $cart]);
+        $orders = $this->orderRepository->findBy(["cartId"=> $cart]);
 
-        $orderProducts = $this->orderProductRepository->findBy(["orderId"=> $order]);
 
-        //fill order
-        $products = [];
-        $totalPrice = 0;
-        foreach($orderProducts as $childProduct)
+        $retOrders = [];
+
+        foreach($orders as $order)
         {
-            $product = $childProduct->getProductId();
-            
-            $products[] = [
-                "id" => $product->getId(),
-                "name" => $product->getName(),
-                "description" => $product->getDescription(),
-                "photo" => $product->getPhoto(),
-                "price" => $product->getPrice()
+            $orderProducts = $this->orderProductRepository->findBy(["orderId"=> $order]);
+
+            //fill order
+            $products = [];
+            $totalPrice = 0;
+            foreach($orderProducts as $childProduct)
+            {
+                $product = $childProduct->getProductId();
+                
+                $products[] = [
+                    "id" => $product->getId(),
+                    "name" => $product->getName(),
+                    "description" => $product->getDescription(),
+                    "photo" => $product->getPhoto(),
+                    "price" => $product->getPrice()
+                ];
+
+                $totalPrice += $product->getPrice();
+            }
+
+            $retOrders[] = [
+                "id" => $order->getId(),
+                "totalPrice" => $totalPrice,
+                "creationDate" => $order->getCreationDate()->format('Y-m-d H:i:s'),
+                "products" => $products
             ];
-
-            $totalPrice += $product->getPrice();
         }
+        
 
-        $retData = [
-            "id" => $order->getId(),
-            "totalPrice" => $totalPrice,
-            "creationDate" => $order->getCreationDate()->format('Y-m-d H:i:s'),
-            "products" => $products
-        ];
-
-        return new JsonResponse($retData, Response::HTTP_OK);
+        return new JsonResponse($retOrders, Response::HTTP_OK);
     }
 
      /**
@@ -121,9 +128,9 @@ class CartProductController
         }
 
         $retData = [
-            "id" => $order->getId(),
+            "id" => $order[0]->getId(),
             "totalPrice" => $totalPrice,
-            "creationDate" => $order->getCreationDate()->format('Y-m-d H:i:s'),
+            "creationDate" => $order[0]->getCreationDate()->format('Y-m-d H:i:s'),
             "products" => $products
         ];
 
