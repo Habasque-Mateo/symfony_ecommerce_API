@@ -48,19 +48,14 @@ class CartProductController
             return new JsonResponse(["error" => "Cart not found."], 400);
         }
 
-        $cartProducts = $this->cartProductRepository->findBy(['cartId' => $cart->getId()]);
-
-        if(count($cartProducts) < 1)
-        {
-            return new JsonResponse(["error" => "Cart is empty."], 400);
-        }
-
         $order = $this->orderRepository->findBy(["cartId"=> $cart]);
+
+        $orderProducts = $this->orderProductRepository->findBy(["orderId"=> $order]);
 
         //fill order
         $products = [];
         $totalPrice = 0;
-        foreach($cartProducts as $childProduct)
+        foreach($orderProducts as $childProduct)
         {
             $product = $childProduct->getProductId();
             
@@ -103,19 +98,14 @@ class CartProductController
             return new JsonResponse(["error" => "Cart not found."], 400);
         }
 
-        $cartProducts = $this->cartProductRepository->findBy(['cartId' => $cart->getId()]);
-
-        if(count($cartProducts) < 1)
-        {
-            return new JsonResponse(["error" => "Cart is empty."], 400);
-        }
-
         $order = $this->orderRepository->findBy(["id"=> $orderId]);
+
+        $orderProducts = $this->orderProductRepository->findBy(["orderId"=> $order]);
 
         //fill order
         $products = [];
         $totalPrice = 0;
-        foreach($cartProducts as $childProduct)
+        foreach($orderProducts as $childProduct)
         {
             $product = $childProduct->getProductId();
             
