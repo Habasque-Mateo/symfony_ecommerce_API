@@ -31,6 +31,118 @@ class CartProductController
     }
 
     /**
+    * @Route("/api/orders", name="get_all_user_orders", methods={"GET"})
+    */
+    public function getAllOrders(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        if(empty($data['userLogin']))
+        {
+            return new JsonResponse(["error" => "Missing required parameter."], 400);
+        }
+
+        $cart = $this->cartRepository->findOneByUserLogin($data['userLogin']);
+
+        if(empty($cart))
+        {
+            return new JsonResponse(["error" => "Cart not found."], 400);
+        }
+
+        $cartProducts = $this->cartProductRepository->findBy(['cartId' => $cart->getId()]);
+
+        if(count($cartProducts) < 1)
+        {
+            return new JsonResponse(["error" => "Cart is empty."], 400);
+        }
+
+        $order = $this->orderRepository->findBy(["cartId"=> $cart]);
+
+        //fill order
+        $products = [];
+        $totalPrice = 0;
+        foreach($cartProducts as $childProduct)
+        {
+            $product = $childProduct->getProductId();
+            
+            $products[] = [
+                "id" => $product->getId(),
+                "name" => $product->getName(),
+                "description" => $product->getDescription(),
+                "photo" => $product->getPhoto(),
+                "price" => $product->getPrice()
+            ];
+
+            $totalPrice += $product->getPrice();
+        }
+
+        $retData = [
+            "id" => $order->getId(),
+            "totalPrice" => $totalPrice,
+            "creationDate" => $order->getCreationDate()->format('Y-m-d H:i:s'),
+            "products" => $products
+        ];
+
+        return new JsonResponse($retData, Response::HTTP_OK);
+    }
+
+     /**
+    * @Route("/api/order/{orderId}", name="get_one_user_order", methods={"GET"})
+    */
+    public function getOrderbyId(Request $request, $orderId): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        if(empty($data['userLogin']))
+        {
+            return new JsonResponse(["error" => "Missing required parameter."], 400);
+        }
+
+        $cart = $this->cartRepository->findOneByUserLogin($data['userLogin']);
+
+        if(empty($cart))
+        {
+            return new JsonResponse(["error" => "Cart not found."], 400);
+        }
+
+        $cartProducts = $this->cartProductRepository->findBy(['cartId' => $cart->getId()]);
+
+        if(count($cartProducts) < 1)
+        {
+            return new JsonResponse(["error" => "Cart is empty."], 400);
+        }
+
+        $order = $this->orderRepository->findBy(["id"=> $orderId]);
+
+        //fill order
+        $products = [];
+        $totalPrice = 0;
+        foreach($cartProducts as $childProduct)
+        {
+            $product = $childProduct->getProductId();
+            
+            $products[] = [
+                "id" => $product->getId(),
+                "name" => $product->getName(),
+                "description" => $product->getDescription(),
+                "photo" => $product->getPhoto(),
+                "price" => $product->getPrice()
+            ];
+
+            $totalPrice += $product->getPrice();
+        }
+
+        $retData = [
+            "id" => $order->getId(),
+            "totalPrice" => $totalPrice,
+            "creationDate" => $order->getCreationDate()->format('Y-m-d H:i:s'),
+            "products" => $products
+        ];
+
+        return new JsonResponse($retData, Response::HTTP_OK);
+    }
+
+
+
+    /**
     * @Route("/api/cart/{productId}", name="add_product_to_cart", methods={"POST"})
     */
     public function add(Request $request, $productId): JsonResponse
