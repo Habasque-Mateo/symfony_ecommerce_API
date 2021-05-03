@@ -44,9 +44,15 @@ class Catalog
      */
     private $cartProducts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="productId", orphanRemoval=true)
+     */
+    private $orderProducts;
+
     public function __construct()
     {
         $this->cartProducts = new ArrayCollection();
+        $this->orderProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,6 +142,36 @@ class Catalog
             // set the owning side to null (unless already changed)
             if ($cartProduct->getProductId() === $this) {
                 $cartProduct->setProductId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderProduct[]
+     */
+    public function getOrderProducts(): Collection
+    {
+        return $this->orderProducts;
+    }
+
+    public function addOrderProduct(OrderProduct $orderProduct): self
+    {
+        if (!$this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts[] = $orderProduct;
+            $orderProduct->setProductId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderProduct(OrderProduct $orderProduct): self
+    {
+        if ($this->orderProducts->removeElement($orderProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($orderProduct->getProductId() === $this) {
+                $orderProduct->setProductId(null);
             }
         }
 
