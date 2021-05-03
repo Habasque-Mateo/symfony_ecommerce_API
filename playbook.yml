@@ -1,0 +1,15 @@
+---
+
+- name: Deploy
+  hosts: all
+  gather_facts: false
+  become: yes    
+  vars:
+    ansistrano_deploy_from: "/var/www/html/symfony5"
+    ansistrano_deploy_to: "/var/www/html/ecommerce"
+    ansistrano_keep_releases: 3
+    symfony_console_path: 'bin/console'
+    ansistrano_deploy_via: copy
+    
+  roles:
+  - { role: cbrunnkvist.ansistrano-symfony-deploy }
