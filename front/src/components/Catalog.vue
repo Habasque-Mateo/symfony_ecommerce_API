@@ -1,6 +1,31 @@
 <template>
   <div>
         <h1>Catalog</h1>
+        <modal v-if="showModal" @close="showModal = false">
+          <form class="field-set" method="POST">
+            <button class="close" @click="showModal = false">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <label for="name" class="input-title">Name :</label>
+            <br>
+            <input class="form-control mr-sm-2 dark-input-color"  type="text"  id="name" name="name">
+            <br>
+            <br>
+            <label for="description" class="input-title">Description :</label>
+            <br>
+            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="description" name="description">
+            <br>
+            <br>
+            <label for="photo" class="input-title">Photo :</label>
+            <br>
+            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="photo" name="photo">
+            <br>
+            <br>
+            <label for="price" class="input-title">Price :</label>
+            <br>
+            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="price" name="price">
+          </form>
+        </modal>
         <table>
           <thead>
             <tr>
@@ -20,8 +45,8 @@
               <td>{{product.description}}</td>
               <td>{{product.image}}</td>
               <td>{{product.price}}</td>
-              <td><a><img alt="edit" src="@/assets/edit.png" class="edit-button"></a></td>
-              <td><a><img alt="delete" src="@/assets/delete.png" class="delete-button"></a></td>
+              <td><a @click="showModal = true"><img alt="edit" src="@/assets/edit.png" class="edit-button"></a></td>
+              <td><a v-on:click="deleteRaw"><img alt="delete" src="@/assets/delete.png" class="delete-button"></a></td>
             </tr>
           </tbody>
         </table>
@@ -36,9 +61,21 @@
     name: 'catalog',
     mounted() {
       axios
-        .get('https://localhost:8000/api/product')
+        .get('https://10.0.2.15/api/products')
         .then(response => (this.info = response.data))
         .catch(error => console.log(error))
+    },
+    methods: {
+      edit: function () {
+
+      },
+      deleteRaw: function () {
+       /* axios
+          .delete('https://10.0.2.15/api/' + { product.id })
+          .then(response => (this.info = response.data))
+          .catch(error => console.log(error))*/
+        alert('raw deleted')
+      }
     }
   }
 
@@ -75,6 +112,28 @@
 
   .delete-button {
     height: 25px;
+  }
+
+  form {
+    width: 450px;
+    min-height: 500px;
+    height: auto;
+    border-radius: 5px;
+    margin: 2% auto;
+    box-shadow: 0 9px 50px hsla(20, 67%, 75%, 0.31);
+    padding: 2%;
+    background-image: linear-gradient(-225deg, #212b37 50%, #3b3b3b 50%);
+    box-shadow:  0 0 30px black;
+  }
+
+  .input-title{
+    color: white;
+  }
+
+  .dark-input-color {
+      background-color: black;
+      color: lightgray;
+      border-color: #1fcfc6;
   }
 
 </style>
