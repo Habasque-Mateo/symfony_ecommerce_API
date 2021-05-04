@@ -18,11 +18,11 @@
         dest: /var/www/html/ecommerce2
     - name: createDB
       command: '{{ symfony_console_path }} doctrine:database:create --if-not-exists'
-    - name: makeMigration
-      command: '{{ symfony_console_path }} make:migration --no-interaction'
-   
     - name: importTables
-      command: '{{ symfony_console_path }} doctrine:migrations:migrate --no-interaction'
+      mysql_db:
+        state: import
+        name: ecommerce
+        target: /var/www/html/ecommerce2/symfony5/ecommerce.sql
    
   handlers:
     - name: RestartNginx
