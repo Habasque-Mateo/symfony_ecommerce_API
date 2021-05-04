@@ -42,7 +42,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="product in info" :key="product.id">
+            <tr v-for="product in {catalog}" :key="product.id">
               <td>{{product.id}}</td>
               <td>{{product.name}}</td>
               <td>{{product.description}}</td>
@@ -59,7 +59,6 @@
 <script>
 
   import axios from 'axios';
-
   export default {
     name: 'catalog',
     data (){
@@ -70,13 +69,19 @@
             description: '',
             photo: '',
             price: ''
+        },
+        catalog: {
+
         }
       }
     },
     mounted() {
       axios
         .get('https://10.0.2.15/api/products')
-        .then(response => (this.info = response.data))
+        .then((response) => {
+          this.catalog = response.data,
+          console.warn(response.data)
+        })
         .catch(error => console.log(error))
     },
     methods: {
