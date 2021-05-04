@@ -1,15 +1,36 @@
 ---
 
-- name: Deploy
+- name: deploy api
   hosts: all
-  gather_facts: false
-  become: yes    
+  remote_user: mateo
+  become: yes
   vars:
-    ansistrano_deploy_from: "/var/www/html/symfony5"
-    ansistrano_deploy_to: "/var/www/html/ecommerce"
-    ansistrano_keep_releases: 3
-    symfony_console_path: 'bin/console'
-    ansistrano_deploy_via: copy
-    
-  roles:
-  - { role: cbrunnkvist.ansistrano-symfony-deploy }
+    symfony_console_path: /var/www/html/ecommerce2/symfony5/bin/console
+
+  tasks:
+    - name: checkVersion
+      fail:
+        msg: "Use  Debian10"
+      when: ansible_distribution != "Debian" or ansible_distribution_version < "10"
+    - name: tranferFiles
+      synchronize:
+        src: /var/www/html/symfony5
+        dest: /var/www/html/ecommerce2
+    - name: createDB
+      command: '{{ symfony_console_path }} doctrine:database:create --if-not-exists'
+    - name: importTables
+      mysql_db:
+        state: import
+        name: ecommerce
+        target: /var/www/html/ecommerce2/symfony5/ecommerce.sql
+   
+  handlers:
+    - name: RestartNginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: RestartPHP
+      service:
+        name: php7.3-fpm
+        state: restarted 
