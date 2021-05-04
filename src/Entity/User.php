@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -22,6 +23,11 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -43,6 +49,33 @@ class User
      */
     private $carts;
 
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    /**
+     * @ORM\Column(type="string", unique=true, nullable=true)
+     */
+    private $apiToken;
+
+    public function getApiToken(): ?string
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(string $apiToken): self
+    {
+        $this->apiToken = $apiToken;
+
+        return $this;
+    }
+    
+    public function getUsername(): string
+    {
+        return (string) $this->login;
+    }
+
     public function __construct()
     {
         $this->carts = new ArrayCollection();
@@ -56,6 +89,25 @@ class User
     public function setLogin(string $login): self
     {
         $this->login = $login;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }
@@ -136,5 +188,25 @@ class User
         }
 
         return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }
