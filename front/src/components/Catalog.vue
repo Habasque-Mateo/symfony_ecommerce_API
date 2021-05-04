@@ -2,28 +2,31 @@
   <div>
         <h1>Catalog</h1>
         <modal v-if="showModal" @close="showModal = false">
-          <form class="field-set" method="POST">
+          <form class="field-set" method="POST" v-on:submit.prevent="submitForm">
             <button class="close" @click="showModal = false">
               <span aria-hidden="true">&times;</span>
             </button>
             <label for="name" class="input-title">Name :</label>
             <br>
-            <input class="form-control mr-sm-2 dark-input-color"  type="text"  id="name" name="name">
+            <input class="form-control mr-sm-2 dark-input-color"  type="text"  id="name" name="name" v-model="form.name">
             <br>
             <br>
             <label for="description" class="input-title">Description :</label>
             <br>
-            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="description" name="description">
+            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="description" name="description" v-model="form.decription">
             <br>
             <br>
             <label for="photo" class="input-title">Photo :</label>
             <br>
-            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="photo" name="photo">
+            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="photo" name="photo" v-model="form.photo">
             <br>
             <br>
             <label for="price" class="input-title">Price :</label>
             <br>
-            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="price" name="price">
+            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="price" name="price" v-model="form.price">
+            <br>
+            <br>
+            <button class="btn btn-primary submit-theme-button">Submit</button>
           </form>
         </modal>
         <table>
@@ -59,6 +62,17 @@
 
   export default {
     name: 'catalog',
+    data (){
+      return {
+        showModal: false,
+        form : {
+            name: '',
+            description: '',
+            photo: '',
+            price: ''
+        }
+      }
+    },
     mounted() {
       axios
         .get('https://10.0.2.15/api/products')
@@ -75,6 +89,9 @@
           .then(response => (this.info = response.data))
           .catch(error => console.log(error))*/
         alert('raw deleted')
+      },
+      submitForm: function () {
+        alert(this.form)
       }
     }
   }
@@ -134,6 +151,12 @@
       background-color: black;
       color: lightgray;
       border-color: #1fcfc6;
+  }
+
+  .submit-theme-button {
+    background-color: rgb(71, 71, 71);
+    color: lightgray;
+    border-color: #1fcfc6;
   }
 
 </style>

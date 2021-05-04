@@ -3,7 +3,7 @@
         <div class="collapse navbar-collapse" id="navbarColor02">      
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <router-link class="nav-link nav-bar-item" to="/">Home
+                    <router-link class="nav-link nav-bar-item" to="/">LogIn
                         <span class="sr-only">(current)</span>
                     </router-link>
                 </li>

@@ -14,7 +14,7 @@
 
 
 <script>
-//import Home from './components/Home.vue'
+//import Login from './components/LogIn.vue'
 import Header from './components/Header.vue'
 
 export default {

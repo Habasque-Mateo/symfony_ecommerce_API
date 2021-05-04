@@ -2,28 +2,31 @@
   <div>
         <h1>User</h1>
         <modal v-if="showModal" @close="showModal = false">
-          <form class="field-set" method="POST">
+          <form class="field-set" method="POST" v-on:submit.prevent="submitForm">
             <button class="close" @click="showModal = false">
               <span aria-hidden="true">&times;</span>
             </button>
             <label for="name" class="input-title">Name :</label>
             <br>
-            <input class="form-control mr-sm-2 dark-input-color"  type="text"  id="name" name="name">
+            <input class="form-control mr-sm-2 dark-input-color"  type="text"  id="name" name="name" v-model="form.name">
             <br>
             <br>
             <label for="password" class="input-title">Password :</label>
             <br>
-            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="password" name="password">
+            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="password" name="password" v-model="form.password">
             <br>
             <br>
             <label for="email" class="input-title">Email :</label>
             <br>
-            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="email" name="email">
+            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="email" name="email" v-model="form.email">
             <br>
             <br>
             <label for="lastname" class="input-title">Lastname :</label>
             <br>
-            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="lastname" name="lastname">
+            <input class="form-control mr-sm-2 dark-input-color"  type="text" id="lastname" name="lastname" v-model="form.lastname">
+            <br>
+            <br>
+            <button class="btn btn-primary submit-theme-button">Submit</button>
           </form>
         </modal>
         <table>
@@ -64,10 +67,16 @@
 //import axios from 'axios';
 
 export default {
-    name: 'catalog',
+    name: 'user',
     data (){
       return {
-        showModal: false
+        showModal: false,
+        form : {
+          name: '',
+          password: '',
+          email: '',
+          lastname: ''
+        }
       }
     },
     methods: {
@@ -80,6 +89,9 @@ export default {
           .then(response => (this.info = response.data))
           .catch(error => console.log(error))*/
         alert('raw deleted')
+      },
+      submitForm: function () {
+        alert(this.form)
       }
     }
 }
@@ -140,6 +152,12 @@ export default {
       background-color: black;
       color: lightgray;
       border-color: #1fcfc6;
+  }
+
+  .submit-theme-button {
+    background-color: rgb(71, 71, 71);
+    color: lightgray;
+    border-color: #1fcfc6;
   }
 
 </style>
