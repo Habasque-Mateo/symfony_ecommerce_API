@@ -78,6 +78,7 @@
         .get('https://10.0.2.15/api/products')
         .then(response => (this.info = response.data))
         .catch(error => console.log(error))
+	alert(info)
     },
     methods: {
       edit: function () {
