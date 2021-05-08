@@ -6,6 +6,8 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -13,12 +15,23 @@ use Doctrine\ORM\EntityManagerInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, User::class);
         $this->manager = $manager;
+    }
+
+    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
+    {
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+        }
+
+        $user->setPassword($newEncodedPassword);
+        $this->_em->persist($user);
+        $this->_em->flush();
     }
 
     public function findOneByLogin($value): ?User
@@ -29,13 +42,6 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
-    }
-
-    public function updateUser(User $user): ?User
-    {
-        $this->manager->persist($user);
-        $this->manager->flush();
-        return $user;
     }
     // /**
     //  * @return User[] Returns an array of User objects
@@ -54,3 +60,4 @@ class UserRepository extends ServiceEntityRepository
     }
     */
 }
+ ?>
