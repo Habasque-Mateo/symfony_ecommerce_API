@@ -49,7 +49,7 @@
               <td>{{product.image}}</td>
               <td>{{product.price}}</td>
               <td><a @click="showModal = true"><img alt="edit" src="@/assets/edit.png" class="edit-button"></a></td>
-              <td><a v-on:click="deleteRaw"><img alt="delete" src="@/assets/delete.png" class="delete-button"></a></td>
+              <td><a v-on:click="deleteRaw(product.id)"><img alt="delete" src="@/assets/delete.png" class="delete-button"></a></td>
             </tr>
           </tbody>
         </table>
@@ -80,7 +80,7 @@
         .get('https://10.0.2.15/api/products')
         .then((response) => {
           this.catalog = response.data,
-          console.warn(response.data)
+          console.warn("get products :", this.catalog)
         })
         .catch(error => console.log(error))
     },
@@ -88,9 +88,9 @@
       edit: function () {
 
       },
-      deleteRaw: function () {
+      deleteRaw: function (productId) {
        /* axios
-          .delete('https://10.0.2.15/api/' + { product.id })
+          .delete('https://10.0.2.15/api/' + { productId })
           .then(response => (this.info = response.data))
           .catch(error => console.log(error))*/
         alert('raw deleted')
