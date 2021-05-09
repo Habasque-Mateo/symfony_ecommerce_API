@@ -76,8 +76,10 @@ export default {
           password: '',
           email: '',
           lastname: ''
+        },
+        user : { 
+
         }
-      }
     },
     methods: {
       edit: function () {
@@ -91,7 +93,11 @@ export default {
         alert('raw deleted')
       },
       submitForm: function () {
-        alert(this.form)
+        axios
+          .post("http://10.0.2.15/api/login", this.form)
+          .then(response => this.user = response.data)
+
+        alert(this.user)
       }
     }
 }
