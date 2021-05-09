@@ -77,7 +77,7 @@
     },
     mounted() {
       axios
-        .get('https://10.0.2.15/api/products')
+        .get('http://10.0.2.15/api/products')
         .then((response) => {
           this.catalog = response.data,
           console.warn("get products :", this.catalog)
@@ -89,10 +89,9 @@
 
       },
       deleteRaw: function (productId) {
-       /* axios
-          .delete('https://10.0.2.15/api/' + { productId })
-          .then(response => (this.info = response.data))
-          .catch(error => console.log(error))*/
+        axios
+          .delete('http://10.0.2.15/api/' + { productId })
+          .catch(error => console.log(error))
         alert('raw deleted')
       },
       submitForm: function () {
