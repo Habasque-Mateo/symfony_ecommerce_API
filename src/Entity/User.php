@@ -19,7 +19,7 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\Column(type="string", length=255)
      */
-    private $login = "foobar";
+    private $login;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -39,12 +39,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $firstname = "jack";
+    private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $lastname = "bauer";
+    private $lastname;
 
     /**
      * @ORM\OneToMany(targetEntity=Cart::class, mappedBy="userLogin", orphanRemoval=true)
@@ -134,7 +134,6 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
-        $this->login = $email;
 
         return $this;
     }
