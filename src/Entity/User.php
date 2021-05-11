@@ -27,11 +27,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="array")
-     */
-    private $roles = [];
-
-    /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
@@ -56,22 +51,6 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    /**
-     * @ORM\Column(type="string", unique=true, nullable=true)
-     */
-    private $apiToken;
-
-    public function getApiToken(): ?string
-    {
-        return $this->apiToken;
-    }
-
-    public function setApiToken(string $apiToken): self
-    {
-        $this->apiToken = $apiToken;
-
-        return $this;
-    }
     
     public function getUsername(): string
     {
@@ -98,21 +77,6 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
 
     public function getPassword(): ?string
     {
