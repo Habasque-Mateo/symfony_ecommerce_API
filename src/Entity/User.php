@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
-class User implements UserInterface
+class User
 {
     /**
      * @ORM\Id
@@ -45,12 +45,6 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Cart::class, mappedBy="userLogin", orphanRemoval=true)
      */
     private $carts;
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     
     public function getUsername(): string
     {
@@ -154,25 +148,5 @@ class User implements UserInterface
         }
 
         return $this;
-    }
-
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 }
