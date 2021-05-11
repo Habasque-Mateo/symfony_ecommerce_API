@@ -42,7 +42,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="product in {catalog}" :key="product.id">
+            <tr v-for="product in catalog" :key="product.id">
               <td>{{product.id}}</td>
               <td>{{product.name}}</td>
               <td>{{product.description}}</td>
@@ -90,7 +90,7 @@
       },
       deleteRaw: function (productId) {
         axios
-          .delete('http://10.0.2.15/api/' + { productId })
+          .delete('http://10.0.2.15/api/product/' + { productId })
           .catch(error => console.log(error))
         alert('raw deleted')
       },

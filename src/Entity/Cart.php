@@ -30,9 +30,15 @@ class Cart
      */
     private $cartProducts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Orders::class, mappedBy="cartId", orphanRemoval=true)
+     */
+    private $orders;
+
     public function __construct()
     {
         $this->cartProducts = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,6 +82,36 @@ class Cart
             // set the owning side to null (unless already changed)
             if ($cartProduct->getCartId() === $this) {
                 $cartProduct->setCartId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Orders[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Orders $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setCartId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Orders $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getCartId() === $this) {
+                $order->setCartId(null);
             }
         }
 

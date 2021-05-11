@@ -34,6 +34,25 @@ class CartProductRepository extends ServiceEntityRepository
         return $newCartProduct;
     }
 
+    public function removeCartProduct(CartProduct $cartProduct): ?CartProduct
+    {
+        $this->manager->remove($cartProduct);
+        $this->manager->flush();
+        return null;
+    }
+
+    public function findOneByPk($cartId, $productId): ?CartProduct
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.cartId = :cartId')
+            ->andWhere('c.productId = :productId')
+            ->setParameter('cartId', $cartId)
+            ->setParameter('productId', $productId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     // /**
     //  * @return CartProduct[] Returns an array of CartProduct objects
     //  */
@@ -47,18 +66,6 @@ class CartProductRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?CartProduct
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
         ;
     }
     */
